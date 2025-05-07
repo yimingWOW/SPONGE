@@ -19,13 +19,13 @@
 }
 
 .solana-network-select:hover {
-  border-color: #4E44CE;
+  border-color: #69ce44;
   background-color: #232323;
 }
 
 .solana-network-select:focus {
   outline: none;
-  border-color: #9945FF;
+  border-color: #7aff45;
   box-shadow: 0 0 0 2px rgba(153, 69, 255, 0.1);
 }
 

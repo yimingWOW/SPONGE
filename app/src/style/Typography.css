@@ -1,7 +1,7 @@
 .title {
   font-size: 2.5rem;
   text-align: center;
-  background: linear-gradient(45deg, #9945FF, #14F195);
+  background: linear-gradient(45deg, #fff645, #14F195);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 1rem;
@@ -43,7 +43,7 @@
 .step h3 {
   font-size: 1.3rem;
   margin-bottom: 1rem;
-  color: #9945FF;
+  color: #ffff45;
 }
   
 .step p {
@@ -102,7 +102,7 @@
 
 .sub-title {
   font-size: 1.3rem;
-  color: #9945FF;
+  color: #f0ff45;
   margin-bottom: 0.5rem;
   font-weight: 500;
   line-height: 1.1;
