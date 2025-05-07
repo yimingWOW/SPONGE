@@ -19,7 +19,7 @@ export default defineConfig({
     'process.env': {},
     global: 'globalThis',
   },
-  base: '/cash/',
+  base: '/SPONGE/',
   build: {
     rollupOptions: {
       plugins: [
