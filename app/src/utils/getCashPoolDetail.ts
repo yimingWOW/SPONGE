@@ -1,6 +1,6 @@
 import { getAccount, getAssociatedTokenAddress } from '@solana/spl-token';
-import { AUTHORITY_SEED,LENDING_TOKEN_SEED } from './constants';
-import { PoolInfo } from './getPoolList';
+import { AUTHORITY_SEED,SCASH_TOKEN_SEED } from './constants';
+import { PoolInfo } from './getCashPoolList';
 import * as anchor from '@coral-xyz/anchor';
 import { Connection, PublicKey } from '@solana/web3.js';
 import fallIdl from '../idl/cash.json';
@@ -11,26 +11,26 @@ import { Idl } from '@coral-xyz/anchor';
 import { AnchorWallet } from '@solana/wallet-adapter-react';
 import defaultTokenIcon from '../assets/default-token.png';
 
-export interface PoolStatusInfo {
+export interface CashPoolStatusInfo {
   createPool1: boolean;
 }
 
-export type PoolDetailInfo = {
-  poolStatus: PoolStatusInfo;
+export type CashPoolDetailInfo = {
+  poolStatus: CashPoolStatusInfo;
   poolInfo: PoolInfo;
   userAssets: {
-    tokenAAmount: string;
-    lendingReceiptAmount: string;
-    cashAmount: string;
+    poolCashAmount: string;
+    userCashAmount: string;
+    userSCashAmount: string;
   };
 }
 
-export async function getPoolDetail(
+export async function getCashPoolDetail(
   wallet: AnchorWallet,
   connection: Connection,
   poolPk: PublicKey,
   walletPublicKey: PublicKey  
-): Promise<PoolDetailInfo> {
+): Promise<CashPoolDetailInfo> {
   try {
     const provider = new anchor.AnchorProvider(
       connection,
@@ -56,14 +56,6 @@ export async function getPoolDetail(
 
     const mintA = new PublicKey(pool.mintA);
     
-    const [lenderAuthority] = PublicKey.findProgramAddressSync(
-      [
-        poolPk.toBuffer(),
-        provider.wallet.publicKey.toBuffer(),
-        Buffer.from(AUTHORITY_SEED)
-      ],
-      program.programId
-    );
     const [poolAuthority] = PublicKey.findProgramAddressSync(
       [
         pool.amm.toBuffer(),
@@ -72,11 +64,11 @@ export async function getPoolDetail(
       ],
       program.programId
     );
-    const [lendingReceiptTokenMint] = PublicKey.findProgramAddressSync(
+    const [scashTokenMint] = PublicKey.findProgramAddressSync(
       [
         pool.amm.toBuffer(),
         mintA.toBuffer(),
-        Buffer.from(LENDING_TOKEN_SEED)
+        Buffer.from(SCASH_TOKEN_SEED)
       ],
       program.programId
     );
@@ -90,23 +82,20 @@ export async function getPoolDetail(
     );
     const [
       createPool1,
-      poolAccountAInfo,
-      userTokenAAccount,
-      userLendingReceiptAmount,
+      poolCashAmount,
       userCashAmount,
+      userSCashAmount,
     ] = await Promise.all([
       accountExists(connection, poolPk).catch(() => false),
-      getUserTokenAmount(connection, poolAuthority, pool.mintA).catch(() => 0),
-      getUserTokenAmount(connection, walletPublicKey, mintA).catch(() => 0),
-      getUserTokenAmount(connection, lenderAuthority, lendingReceiptTokenMint).catch(() => 0),
+      getUserTokenAmount(connection, poolAuthority, cashTokenMint).catch(() => 0),
+      getUserTokenAmount(connection, walletPublicKey, scashTokenMint).catch(() => 0),
       getUserTokenAmount(connection, walletPublicKey, cashTokenMint).catch(() => 0),
     ]);
-    console.log("poolAccountAInfo", poolAccountAInfo);
-    console.log("userTokenAAccount", userTokenAAccount);
-    console.log("userLendingReceiptAmount", userLendingReceiptAmount);
-    console.log("cashTokenMint", cashTokenMint.toString());
-
+    console.log("poolAccountAInfo", createPool1);
+    console.log("poolCashAmount", poolCashAmount);
     console.log("userCashAmount", userCashAmount);
+    console.log("userSCashAmount", userSCashAmount);
+
     return {
       poolStatus: {
         createPool1,
@@ -118,12 +107,12 @@ export async function getPoolDetail(
         mintA: mintA,
         tokenASymbol: mintA.toString().slice(0, 4),
         tokenAIcon: defaultTokenIcon,
-        tokenAAmount: Number(poolAccountAInfo),
+        tokenAAmount: Number(poolCashAmount),
       },
       userAssets: {
-        tokenAAmount: userTokenAAccount.toString(),
-        lendingReceiptAmount: userLendingReceiptAmount.toString(),
-        cashAmount: userCashAmount.toString()
+        poolCashAmount: poolCashAmount.toString(),
+        userCashAmount: userCashAmount.toString(),
+        userSCashAmount: userSCashAmount.toString(),
       }
     };
   } catch (error) {
@@ -140,9 +129,9 @@ export async function getPoolDetail(
         tokenAAmount: 0,
       },
       userAssets: {
-        tokenAAmount: '0',
-        lendingReceiptAmount: '0',
-        cashAmount: '0'
+        poolCashAmount: '0',
+        userCashAmount: '0',
+        userSCashAmount: '0'
       }
     };
   }

@@ -6,22 +6,22 @@ import fallIdl from '../idl/cash.json';
 import { 
   ADMIN_PUBLIC_KEY,
   AUTHORITY_SEED,
-  LENDING_TOKEN_SEED,
   CASH_TOKEN_SEED,
   SCASH_TOKEN_SEED,
-} from '../utils/constants';
+  CASH_POOL,
+} from './constants';
 import { Idl } from '@coral-xyz/anchor';
 import { AnchorWallet } from '@solana/wallet-adapter-react';
 
-export interface CreatePoolResult {
+export interface CreateCashPoolResult {
   tx1: string;
 }
-export async function createPool(
+export async function createCashPool(
   wallet: AnchorWallet,
   connection: Connection,
   ammPda: PublicKey,
   mintA: PublicKey,
-): Promise<CreatePoolResult> {
+): Promise<CreateCashPoolResult> {
   try {
     const provider = new anchor.AnchorProvider(
       connection,
@@ -37,24 +37,14 @@ export async function createPool(
     ) as any;
 
     const [poolPda] = PublicKey.findProgramAddressSync(
-      [ammPda.toBuffer(), mintA.toBuffer()],
+      [ammPda.toBuffer(), mintA.toBuffer(), Buffer.from(CASH_POOL)],
       program.programId
     );
     const [poolAuthorityPda] = PublicKey.findProgramAddressSync(
       [ammPda.toBuffer(), mintA.toBuffer(), Buffer.from(AUTHORITY_SEED)],
       program.programId
     );
-    const poolAccountA = await anchor.utils.token.associatedAddress({
-      mint: mintA,
-      owner: poolAuthorityPda
-    });
-    const [lendingReceiptTokenMint] = PublicKey.findProgramAddressSync(
-      [
-        ammPda.toBuffer(), mintA.toBuffer(),
-        Buffer.from(LENDING_TOKEN_SEED)
-      ],
-      program.programId
-    );
+
     const [cashTokenMint] = PublicKey.findProgramAddressSync(
       [
         ammPda.toBuffer(), mintA.toBuffer(),
@@ -64,27 +54,25 @@ export async function createPool(
     );
     const [sCashTokenMint] = PublicKey.findProgramAddressSync(
       [
-        ammPda.toBuffer(), 
-        mintA.toBuffer(),
+        ammPda.toBuffer(), mintA.toBuffer(),
         Buffer.from(SCASH_TOKEN_SEED)
       ],
       program.programId
     );
-
     const modifyComputeUnits = anchor.web3.ComputeBudgetProgram.setComputeUnitLimit({ 
       units: 1_000_000  
     });
-    console.log('Step 1: Creating pool...');
+    console.log('Step 1: Creating cash pool...');
     let tx1: string='';
     if (!await accountExists(connection, poolPda)) {
-      tx1 = await program.methods.createPool1().accounts({
+      tx1 = await program.methods.createCashPool().accounts({
         amm: ammPda,
         mintA: mintA,
-        pool: poolPda,
-        poolAuthority: poolAuthorityPda,
-        poolAccountA: poolAccountA,
-        lendingReceiptTokenMint: lendingReceiptTokenMint,
+
         cashTokenMint: cashTokenMint,
+        cashPool: poolPda,
+        poolAuthority: poolAuthorityPda,
+
         sCashTokenMint: sCashTokenMint,
         admin: ADMIN_PUBLIC_KEY,
         payer: provider.wallet.publicKey,

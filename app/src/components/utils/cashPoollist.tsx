@@ -1,17 +1,17 @@
 import { FC, useEffect, useState } from 'react';
 import { useAnchorWallet, useConnection } from '@solana/wallet-adapter-react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { getPoolList, PoolInfo } from '../../utils/getPoolList';
+import { getCashPoolList, PoolInfo } from '../../utils/getCashPoolList';
 import defaultTokenIcon from '../../assets/default-token.png';
 import '../../style/Theme.css';
 import '../../style/Typography.css';
 
-interface PoolListProps {
+interface CashPoolListProps {
   showCreatePool?: boolean;
   onCreatePool?: () => void;
 }
 
-export const PoolList: FC<PoolListProps> = ({
+export const CashPoolList: FC<CashPoolListProps> = ({
   showCreatePool = false,
   onCreatePool
 }) => {
@@ -26,7 +26,7 @@ export const PoolList: FC<PoolListProps> = ({
     try {
       setIsLoading(true);
       if (!wallet) return;
-      const poolList = await getPoolList(wallet, connection);
+      const poolList = await getCashPoolList(wallet, connection);
       setPools(poolList);
     } catch (error) {
       console.error('Error fetching pools:', error);

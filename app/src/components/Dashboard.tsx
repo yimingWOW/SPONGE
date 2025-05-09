@@ -57,10 +57,16 @@ const Dashboard: FC = () => {
           label="Guide"
         />
         <TabButton 
-          isActive={currentTab === 'farm'} 
-          onClick={() => handleTabChange('farm')}
+          isActive={currentTab === 'cash'} 
+          onClick={() => handleTabChange('cash')}
           icon="💰"
           label="Cash"
+        />
+        <TabButton 
+          isActive={currentTab === 'scash'} 
+          onClick={() => handleTabChange('scash')}
+          icon="💰"
+          label="Scash"
         />
       </nav>
 

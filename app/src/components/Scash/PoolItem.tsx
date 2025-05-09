@@ -1,6 +1,6 @@
 import { FC, useState, useEffect } from 'react';
 import { useConnection, useWallet, useAnchorWallet } from '@solana/wallet-adapter-react';
-import { getPoolDetail, PoolDetailInfo } from '../../utils/getPoolDetail';
+import { getCashPoolDetail, CashPoolDetailInfo } from '../../utils/getCashPoolDetail';
 import { DepositLiquidityForm } from './DepositLiquidityForm';
 import { PublicKey } from '@solana/web3.js';
 import '../../style/Theme.css';
@@ -17,14 +17,14 @@ export const PoolItem: FC = () => {
   const { poolAddress } = useParams();
   const navigate = useNavigate();
   const { publicKey: walletPublicKey } = useWallet();
-  const [details, setDetails] = useState<PoolDetailInfo | null>(null);
+  const [details, setDetails] = useState<CashPoolDetailInfo | null>(null);
   const [isLoadingDetails, setIsLoadingDetails] = useState(false);
 
   const fetchDetails = async () => {
     try {
       if (!wallet) return;
       setIsLoadingDetails(true);
-      const poolDetail = await getPoolDetail(
+      const poolDetail = await getCashPoolDetail(
         wallet,
         connection, 
         new PublicKey(poolAddress || ''),
@@ -47,7 +47,7 @@ export const PoolItem: FC = () => {
       <div className="back-button-container">
         <button 
           className="button btn-primary"
-          onClick={() => navigate('/farm')}
+          onClick={() => navigate('/scash')}
           style={{ marginBottom: 'var(--spacing-md)' }}
         >
           Back
@@ -97,8 +97,9 @@ export const PoolItem: FC = () => {
             ) : details ? (
               <WithdrawLiquidityForm
                 pool={details?.poolInfo || null}
-                receiptAmount={parseFloat(details.userAssets.lendingReceiptAmount)}
-                cashAmount={parseFloat(details.userAssets.cashAmount)}
+                poolCashAmount={parseFloat(details.userAssets.poolCashAmount)}
+                userCashAmount={parseFloat(details.userAssets.userCashAmount)}
+                userSCashAmount={parseFloat(details.userAssets.userSCashAmount)}
                 onSuccess={fetchDetails}
               />
             ) : (

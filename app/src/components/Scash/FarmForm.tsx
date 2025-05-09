@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { PoolList } from '../utils/poollist';
+import { CashPoolList } from '../utils/cashPoollist';
 import { useNavigate } from 'react-router-dom';
 
 export const FarmForm: FC = () => {
@@ -7,9 +7,9 @@ export const FarmForm: FC = () => {
 
   return (
     <div>
-      <PoolList
+      <CashPoolList
         showCreatePool={true}
-        onCreatePool={() => navigate('/farm/create')}
+        onCreatePool={() => navigate('/scash/create')}
       />
     </div>
   );

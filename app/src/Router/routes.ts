@@ -1,12 +1,13 @@
 import { RouteConfig } from './types';
 import Dashboard from '../components/Dashboard';
 import { Guide } from '../components/Guide/Guide';
-import { LenderPoolList } from '../components/Cash/LendPoolList';
 import { AmmList } from '../components/Amm/AmmList';
-import { FarmForm } from '../components/Farm/FarmForm';
-import { LenderPoolItem } from '../components/Cash/LendPoolItem';
-import { PoolItem } from '../components/Farm/PoolItem';
-import { CreatePoolForm } from '../components/Farm/CreatePoolForm';
+import { FarmForm } from '../components/Cash/FarmForm';
+import { PoolItem } from '../components/Cash/PoolItem';
+import { CreatePoolForm } from '../components/Cash/CreatePoolForm';
+import { FarmForm as ScashFarmForm } from '../components/Scash/FarmForm';
+import { PoolItem as ScashPoolItem } from '../components/Scash/PoolItem';
+import { CreatePoolForm as ScashCreatePoolForm } from '../components/Scash/CreatePoolForm';
 import { Introduction } from '../components/Introduction/introduction';
 export const routes: RouteConfig[] = [
   {
@@ -33,28 +34,34 @@ export const routes: RouteConfig[] = [
         meta: { title: 'AMM' }
       },
       {
-        path: 'farm',
-        component: FarmForm,
-        meta: { title: 'Farm' },
-      },
-      {
-        path: 'farm/create',
-        component: CreatePoolForm,
-        meta: { title: 'Create Farm Pool' }
-      },
-      {
-        path: 'farm/:poolAddress',
-        component: PoolItem,
-        meta: { title: 'Farm Pool Item' }
-      },
-      {
         path: 'cash',
-        component: LenderPoolList,
-        meta: { title: 'cash Pool' },
+        component: FarmForm,
+        meta: { title: 'Cash' },
+      },
+      {
+        path: 'cash/create',
+        component: CreatePoolForm,
+        meta: { title: 'Create Cash Pool' }
       },
       {
         path: 'cash/:poolAddress',
-        component: LenderPoolItem,
+        component: PoolItem,
+        meta: { title: 'Cash Pool Item' }
+      },
+      {
+        path: 'scash',
+        component: ScashFarmForm,
+        meta: { title: 'Scash' },
+      },
+      {
+        path: 'scash/create',
+        component: ScashCreatePoolForm,
+        meta: { title: 'Create Scash Pool' }
+      },
+      {
+        path: 'scash/:poolAddress',
+        component: ScashPoolItem,
+        meta: { title: 'Scash Pool Item' }
       },
     ]
   }

@@ -15,7 +15,7 @@ export interface PoolInfo {
   tokenBSymbol?: string;
 }
 
-export async function getPoolList(
+export async function getCashPoolList(
   wallet: any,
   connection: Connection
 ): Promise<PoolInfo[]> {
@@ -31,19 +31,24 @@ export async function getPoolList(
       provider
     ) as any;
 
+    console.log("catch cash pool");
     const accounts = await program.account.pool.all();
+    console.log("accounts", accounts);
+    console.log("pool accounts", accounts[0].account.poolType);
+
 
     return accounts.filter((account: any) => 
-      account.account.poolType == 0
-    ).map((account: any) => ({
-      poolPk: new PublicKey(account.publicKey.toString()),
-      amm: new PublicKey(account.account.amm.toString()),
-      mintA: new PublicKey(account.account.mintA.toString()),
-      tokenAAmount: account.account.tokenAAmount.toString(),
-      displayName: `${account.account.mintA.toString().slice(0,4)}}`
-    }));
+        account.account.poolType == 1
+      )
+      .map((account: any) => ({
+        poolPk: new PublicKey(account.publicKey.toString()),
+        amm: new PublicKey(account.account.amm.toString()),
+        mintA: new PublicKey(account.account.mintA.toString()),
+        tokenAAmount: account.account.tokenAAmount.toString(),
+        displayName: `${account.account.mintA.toString().slice(0,4)}`
+      }));
   } catch (error) {
-    console.error('Error fetching pool accounts:', error);
+    console.error('Error fetching cash pool accounts:', error);
     throw error;
   }
 } 

@@ -50,7 +50,7 @@ export const CreatePoolForm: FC = () => {
       
       setLastTxSignature(signature.toString());
       setFormData({ mintA: ''});
-      navigate('/farm');
+      navigate('/cash');
     } catch (err) {
       console.error("Error creating pool:", err);
       setError(err instanceof Error ? err.message : "Failed to create pool");
@@ -64,7 +64,7 @@ export const CreatePoolForm: FC = () => {
       <div className="back-button-container">
         <button 
           className="button btn-primary"
-          onClick={() => navigate('/farm')}
+          onClick={() => navigate('/cash')}
           style={{ marginBottom: 'var(--spacing-md)' }}
         >
           Back
