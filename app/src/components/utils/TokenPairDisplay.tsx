@@ -32,11 +32,9 @@ export const TokenPairDisplay: FC<TokenPairDisplayProps> = ({ poolInfo }) => {
           />
         </div>
         <span className="body-text">Trading Pair: </span>
-        <span className="code-text address-pair">
-          <span>{poolInfo?.mintA.toString().slice(0, 4)}...{poolInfo?.mintA.toString().slice(-4)}</span>
-        </span>
+        <CopyableAddress address={poolInfo?.tokenASymbol || '@'} shortened={false} />
         <span className="body-text">Pool Address:</span>
-        <CopyableAddress address={poolInfo?.poolPk.toString() || ''} />
+        <CopyableAddress address={poolInfo?.poolPk.toString() || '#'} shortened={false} />
       </div>
     </div>
   );

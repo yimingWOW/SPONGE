@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { useAnchorWallet, useConnection } from '@solana/wallet-adapter-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { getPoolList, PoolInfo } from '../../utils/getPoolList';
-import defaultTokenIcon from '../../assets/default-token.png';
+import { TokenPairDisplay } from './TokenPairDisplay';
 import '../../style/Theme.css';
 import '../../style/Typography.css';
 
@@ -70,33 +70,9 @@ export const PoolList: FC<PoolListProps> = ({
                 className="step"
               >
                 <div className="row-align-center">
-                  <div className="token-pair-container">
-                    <img
-                      src={pool.tokenAIcon || defaultTokenIcon}
-                      alt={pool.tokenASymbol || 'Token A'}
-                      className="token-icon"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = defaultTokenIcon;
-                      }}
-                    />
-                    <div className="swap-direction-toggle" />
-                    <img
-                      src={pool.tokenBIcon || defaultTokenIcon}
-                      alt={pool.tokenBSymbol || 'Token B'}
-                      className="token-icon"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = defaultTokenIcon;
-                      }}
-                    />
-                  </div>
-                  <span className="body-text">Trading Pair: </span>
-                  <span className="code-text address-pair">
-                    <span>{pool.mintA.toString().slice(0, 4)}...{pool.mintA.toString().slice(-4)}</span>
-                  </span>
-                  <span className="body-text">Pool Address: </span>
-                  <span className="code-text">
-                    {pool.poolPk.toString().slice(0, 4)}...{pool.poolPk.toString().slice(-4)}
-                  </span>
+                  <TokenPairDisplay
+                    poolInfo={pool}
+                  />
                   <button 
                     className="button btn-primary"
                     onClick={(e) => handleDetailsClick(pool, e)}

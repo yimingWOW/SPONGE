@@ -88,8 +88,8 @@ export async function getCashPoolDetail(
     ] = await Promise.all([
       accountExists(connection, poolPk).catch(() => false),
       getUserTokenAmount(connection, poolAuthority, cashTokenMint).catch(() => 0),
-      getUserTokenAmount(connection, walletPublicKey, scashTokenMint).catch(() => 0),
-      getUserTokenAmount(connection, walletPublicKey, cashTokenMint).catch(() => 0),
+      getUserTokenAmount(connection, walletPublicKey,cashTokenMint ).catch(() => 0),
+      getUserTokenAmount(connection, walletPublicKey,scashTokenMint  ).catch(() => 0),
     ]);
     console.log("poolAccountAInfo", createPool1);
     console.log("poolCashAmount", poolCashAmount);

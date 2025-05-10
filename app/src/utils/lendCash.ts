@@ -63,7 +63,7 @@ export async function lendCash(
       mint: cashTokenMint,
       owner: provider.wallet.publicKey,
     });
-    const lenderSashToken = await anchor.utils.token.associatedAddress({
+    const lenderScashToken = await anchor.utils.token.associatedAddress({
       mint: sCashTokenMint,
       owner: provider.wallet.publicKey,
     });
@@ -77,7 +77,7 @@ export async function lendCash(
         sCashTokenMint: sCashTokenMint,
         lender: provider.wallet.publicKey,
         lenderCashToken: lenderCashToken,
-        lenderSashToken: lenderSashToken,
+        lenderScashToken: lenderScashToken,
         payer: provider.wallet.publicKey,
         tokenProgram: TOKEN_PROGRAM_ID,
         associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,

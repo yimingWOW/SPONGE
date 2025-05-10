@@ -51,13 +51,19 @@ export const WithdrawLiquidityForm: FC<WithdrawLiquidityFormProps> = ({
       <form onSubmit={handleSubmit}>
       <div className="wrapper-container">
         <div className="wrapper-header">
-          <div className="body-text">Deposited $Sol amount: {receiptAmount}</div>
+        <div className="body-text">Margin ratio: {cashAmount/receiptAmount*100}%</div>
           {error && (
             <div className="error-message">
               {error}
             </div>
           )}
-          <div className="body-text">Owned $Cash amount: {cashAmount}</div>
+          <div className="body-text">Deposited $Sol value: {receiptAmount}</div>
+          {error && (
+            <div className="error-message">
+              {error}
+            </div>
+          )}
+          <div className="body-text">Owned $Cash value: {cashAmount}</div>
           {error && (
             <div className="error-message">
               {error}

@@ -56,20 +56,12 @@ export async function redeemCash(
       ],
       program.programId
     );
-    const [lenderAuthority] = PublicKey.findProgramAddressSync(
-      [
-        poolPda.toBuffer(),
-        provider.wallet.publicKey.toBuffer(),
-        Buffer.from(AUTHORITY_SEED)
-      ],
-      program.programId
-    );
     const lenderCashToken = await anchor.utils.token.associatedAddress({
       mint: cashTokenMint,
       owner: provider.wallet.publicKey,
     });
 
-    const lenderSCashToken = await anchor.utils.token.associatedAddress({
+    const lenderScashToken = await anchor.utils.token.associatedAddress({
       mint: sCashTokenMint,
       owner: provider.wallet.publicKey,
     });
@@ -82,9 +74,8 @@ export async function redeemCash(
         cashTokenMint: cashTokenMint,
         sCashTokenMint: sCashTokenMint,
         lender: provider.wallet.publicKey,
-        lenderAuthority: lenderAuthority,
         lenderCashToken: lenderCashToken,
-        lenderSCashToken: lenderSCashToken,
+        lenderScashToken: lenderScashToken,
         payer: provider.wallet.publicKey,
         tokenProgram: TOKEN_PROGRAM_ID,
         associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,

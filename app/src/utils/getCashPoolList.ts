@@ -45,6 +45,7 @@ export async function getCashPoolList(
         amm: new PublicKey(account.account.amm.toString()),
         mintA: new PublicKey(account.account.mintA.toString()),
         tokenAAmount: account.account.tokenAAmount.toString(),
+        tokenASymbol: "SCASH",
         displayName: `${account.account.mintA.toString().slice(0,4)}`
       }));
   } catch (error) {

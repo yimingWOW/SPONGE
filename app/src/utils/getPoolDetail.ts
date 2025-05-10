@@ -116,7 +116,7 @@ export async function getPoolDetail(
         amm: pool.amm,
         admin: amm.admin,
         mintA: mintA,
-        tokenASymbol: mintA.toString().slice(0, 4),
+        tokenASymbol: mintA.toString() === "So11111111111111111111111111111111111111112" ? "SOL" : "USDT",
         tokenAIcon: defaultTokenIcon,
         tokenAAmount: Number(poolAccountAInfo),
       },

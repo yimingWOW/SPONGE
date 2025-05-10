@@ -40,6 +40,7 @@ export async function getPoolList(
       amm: new PublicKey(account.account.amm.toString()),
       mintA: new PublicKey(account.account.mintA.toString()),
       tokenAAmount: account.account.tokenAAmount.toString(),
+      tokenASymbol: account.account.mintA.toString() === "So11111111111111111111111111111111111111112" ? "SOL" : "USDT",
       displayName: `${account.account.mintA.toString().slice(0,4)}}`
     }));
   } catch (error) {

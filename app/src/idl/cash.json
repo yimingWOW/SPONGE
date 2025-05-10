@@ -1,5 +1,5 @@
 {
-  "address": "G2bMcD1FhZb5sJ6X3vA6k9hyRmZa8NEtq6LsRb6WVyRN",
+  "address": "EYCdeLWKH7F5JejES1aPvGBqFaT9S1e2roEThq1y9FAR",
   "metadata": {
     "name": "cash",
     "version": "0.1.0",
@@ -2054,27 +2054,6 @@
         {
           "name": "lender",
           "signer": true
-        },
-        {
-          "name": "lender_authority",
-          "pda": {
-            "seeds": [
-              {
-                "kind": "account",
-                "path": "cash_pool"
-              },
-              {
-                "kind": "account",
-                "path": "lender"
-              },
-              {
-                "kind": "const",
-                "value": [
-                  97
-                ]
-              }
-            ]
-          }
         },
         {
           "name": "lender_cash_token",
